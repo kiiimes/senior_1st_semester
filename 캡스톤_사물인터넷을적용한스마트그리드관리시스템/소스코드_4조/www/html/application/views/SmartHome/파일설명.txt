@@ -1,0 +1,7 @@
+charges.html : 전기요금 관련화면
+main.html : 전기요금 및 스위치 선택화면
+shortcodes_login.html : 로그인 화면
+smarthome.html : 스위치 화면
+
+index.html이랑 shortcode.html은 그냥 원래 이 템플릿코드들
+(나는 이거 아직 참고용으로 보고있음!)

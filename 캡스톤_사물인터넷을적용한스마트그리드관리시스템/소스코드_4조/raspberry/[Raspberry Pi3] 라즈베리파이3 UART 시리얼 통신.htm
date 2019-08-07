@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)https://cccding.tistory.com/93 -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/lightbox.min.css"><link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/font.css"><link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/content.css"><!--[if lt IE 9]><script src="https://t1.daumcdn.net/tistory_admin/lib/jquery/jquery-1.12.4.min.js"></script><![endif]--><!--[if gte IE 9]>
+<!--><script src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/jquery-3.2.1.min.js"></script><!--<![endif]-->
+<script src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/lightbox-plus-jquery.min.js"></script>
+<script>
+lightbox.options.fadeDuration = 200;
+lightbox.options.resizeDuration = 200;
+lightbox.options.wrapAround = false;
+lightbox.options.albumLabel = "%1 / %2";
+</script>
+<script>var tjQuery = jQuery.noConflict(true);</script><style type="text/css">.tt_article_useless_p_margin p {padding-top:0 !important;padding-bottom:0 !important;margin-top:0 !important;margin-bottom:0 !important;}</style><meta name="referrer" content="always"><link rel="icon" href="https://t1.daumcdn.net/tistory_admin/static/top/favicon_0630.ico"><link rel="apple-touch-icon" href="https://img1.daumcdn.net/thumb/C180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F25560A40581473FF34">
+<link rel="apple-touch-icon" sizes="76x76" href="https://img1.daumcdn.net/thumb/C76x76/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F25560A40581473FF34">
+<link rel="apple-touch-icon" sizes="120x120" href="https://img1.daumcdn.net/thumb/C120x120/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F25560A40581473FF34">
+<link rel="apple-touch-icon" sizes="152x152" href="https://img1.daumcdn.net/thumb/C152x152/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F25560A40581473FF34"><meta name="description" content="UART란? - universal asynchronous receiver&amp;transmitter의 약자로 비동기 시리얼 통신을 의미한다. - baud rate (1초에 몇개의 신호가 전송되는가를 나타내는 단위로 비동기식이기 때문에 두 프로세서 간의 속도..">
+
+<!-- BEGIN OPENGRAPH -->
+<link rel="canonical" href="https://cccding.tistory.com/93"><meta property="og:type" content="article"><meta property="og:url" content="https://cccding.tistory.com/93"><meta property="og:site_name" content="코카 코딩"><meta property="og:title" content="[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신"><meta name="by" content="[coca] Ccomment"><meta property="og:description" content="UART란? - universal asynchronous receiver&amp;transmitter의 약자로 비동기 시리얼 통신을 의미한다. - baud rate (1초에 몇개의 신호가 전송되는가를 나타내는 단위로 비동기식이기 때문에 두 프로세서 간의 속도.."><meta property="og:image" content="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&amp;fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2512803E586CD2D728">
+<!-- END OPENGRAPH -->
+
+
+
+<!-- BEGIN TWITTERCARD -->
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@TISTORY"><meta name="twitter:title" content="[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신"><meta name="twitter:description" content="UART란? - universal asynchronous receiver&amp;transmitter의 약자로 비동기 시리얼 통신을 의미한다. - baud rate (1초에 몇개의 신호가 전송되는가를 나타내는 단위로 비동기식이기 때문에 두 프로세서 간의 속도.."><meta property="twitter:image" content="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&amp;fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2512803E586CD2D728">
+<!-- END TWITTERCARD -->
+
+
+
+<!-- BEGIN DAUMAPP -->
+<meta property="dg:plink" content="https://cccding.tistory.com/93"><meta name="plink" content="https://cccding.tistory.com/93"><meta name="title" content="[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신"><meta name="article:media_name" content="코카 코딩"><meta property="article:mobile_url" content="https://cccding.tistory.com/m/93"><meta property="article:pc_url" content="https://cccding.tistory.com/93"><meta property="article:mobile_view_url" content="https://cccding.tistory.com/m/93"><meta property="article:pc_view_url" content="https://cccding.tistory.com/93"><meta property="article:talk_channel_view_url" content="https://cccding.tistory.com/m/93"><meta property="article:pc_service_home" content="https://www.tistory.com"><meta property="article:mobile_service_home" content="https://www.tistory.com/m"><meta property="article:txid" content="2438370_93"><meta property="article:published_time" content="2017-01-04T19:12:50+09:00"><meta property="og:regDate" content="20170104191250"><meta property="article:modified_time" content="2017-02-09T17:24:15+09:00">
+<!-- END DAUMAPP -->
+
+
+
+<!-- BEGIN STRUCTURED_DATA -->
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"BlogPosting","mainEntityOfPage":{"@id":"https:\/\/cccding.tistory.com\/93"},"url":"https:\/\/cccding.tistory.com\/93","headline":"[Raspberry Pi3] \ub77c\uc988\ubca0\ub9ac\ud30c\uc7743 UART \uc2dc\ub9ac\uc5bc \ud1b5\uc2e0","description":"UART\ub780? - universal asynchronous receiver&transmitter\uc758 \uc57d\uc790\ub85c \ube44\ub3d9\uae30 \uc2dc\ub9ac\uc5bc \ud1b5\uc2e0\uc744 \uc758\ubbf8\ud55c\ub2e4. - baud rate (1\ucd08\uc5d0 \uba87\uac1c\uc758 \uc2e0\ud638\uac00 \uc804\uc1a1\ub418\ub294\uac00\ub97c \ub098\ud0c0\ub0b4\ub294 \ub2e8\uc704\ub85c \ube44\ub3d9\uae30\uc2dd\uc774\uae30 \ub54c\ubb38\uc5d0 \ub450 \ud504\ub85c\uc138\uc11c \uac04\uc758 \uc18d\ub3c4..","author":{"@type":"Person","name":"[coca] Ccomment"},"image":{"@type":"ImageObject","url":"https:\/\/img1.daumcdn.net\/thumb\/R800x0\/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2512803E586CD2D728","width":"800px","height":"800px"},"datePublished":"20170104T19:12:50+09:00","dateModified":"20170209T17:24:15+09:00","publisher":{"@type":"Organization","name":"TISTORY","logo":{"@type":"ImageObject","url":"https:\/\/t1.daumcdn.net\/tistory_admin\/static\/images\/openGraph\/opengraph.png","width":"800px","height":"800px"}}}</script>
+<!-- END STRUCTURED_DATA -->
+
+
+	
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+	<meta name="google-site-verification" content="KBpHal-f9vdmJdDJxoVZUNDzqG-JbzKIYa7vUM9n5vU">
+	<title>[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신</title>
+	<link rel="alternate" type="application/rss+xml" title="코카 코딩" href="https://cccding.tistory.com/rss">
+
+	<link rel="stylesheet" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/style.css">
+	<link rel="stylesheet" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/font(1).css">
+
+	<!--[if lt IE 9]>
+    <script src="http://t1.daumcdn.net/tistory_admin/lib/jquery-1.11.3.min.js"></script>
+	<![endif]-->
+	<!--[if gte IE 9]><!-->
+	<script src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/jquery-2.1.4.min.js"></script>
+	<!--<![endif]-->
+<meta http-equiv="imagetoolbar" content="no">
+<style type="text/css">
+		#daumSearchBox {
+			height: 21px;
+			background-image : url(//i1.daumcdn.net/imgsrc.search/search_all/show/tistory/plugin/bg_search2_2.gif);
+			margin: 5px auto ;
+			padding: 0;
+		}
+		#daumSearchBox input {
+			background: none;
+			margin : 0;
+			padding : 0;
+			border : 0;
+		}
+		#daumSearchBox #daumLogo {
+			width: 34px;
+			height: 21px;
+			float: left;
+			margin-right: 5px;
+			background-image : url(//i1.daumcdn.net/img-media/tistory/img/bg_search1_2_2010ci.gif);
+		}
+		#daumSearchBox #show_q {
+			background-color: transparent;
+			border: none;
+			font: 12px Gulim, Sans-serif;
+			color: #555;
+			margin-top: 4px;
+			margin-right: 15px;
+			float: left;
+		}
+
+		#daumSearchBox #show_btn {
+			background-image : url(//i1.daumcdn.net/imgsrc.search/search_all/show/tistory/plugin/bt_search_2.gif);
+			width: 37px;
+			height: 21px;
+			float: left;
+			margin:0;
+			cursor:pointer;
+			text-indent:-1000em;
+		}
+	</style>
+<link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/style(1).css">
+<script type="text/javascript" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/profile.js"></script>
+	<style type="text/css">
+		.another_category { border: 1px solid #E5E5E5; padding: 10px 10px 5px; margin:10px 0; clear: both; }
+		.another_category h4 { font-size: 12px !important; margin: 0 !important; border-bottom: 1px solid #E5E5E5 !important; padding: 2px 0 6px !important; }
+		.another_category h4 a { font-weight: bold !important; }
+		.another_category table { table-layout: fixed; border-collapse: collapse; width: 100% !important; margin-top: 10px !important; }
+		* html .another_category table { width: auto !important; }
+		*:first-child+html .another_category table { width: auto !important; }
+		.another_category th, .another_category td { padding: 0 0 4px !important; }
+		.another_category th { text-align: left; font-size: 12px !important; font-weight: normal;  word-break: break-all; overflow: hidden; line-height: 1.5; }
+		.another_category td { text-align: right; width: 80px; font-size: 11px; }
+		.another_category th a { font-weight: normal; text-decoration: none; border: none !important; }
+		.another_category th a.current{ font-weight: bold; text-decoration: none !important; border-bottom: 1px solid !important; }
+		.another_category th span { font-weight: normal; text-decoration: none; font: 10px Tahoma, Sans-serif; border: none !important; }
+
+		.another_category_color_gray, .another_category_color_gray h4 { border-color: #E5E5E5 !important; }
+		.another_category_color_gray * { color: #909090 !important; }
+		.another_category_color_gray th a.current{border-color:#909090 !important;}
+		.another_category_color_gray h4, .another_category_color_gray h4 a { color: #737373 !important; }
+
+
+		.another_category_color_red, .another_category_color_red h4 { border-color: #F6D4D3 !important;  }
+		.another_category_color_red * { color: #E86869 !important; }
+		.another_category_color_red th a.current{border-color:#E86869 !important;}
+		.another_category_color_red h4, .another_category_color_red h4 a { color: #ED0908 !important; }
+
+
+		.another_category_color_green, .another_category_color_green h4 { border-color: #CCE7C8 !important; }
+		.another_category_color_green * { color: #64C05B !important; }
+		.another_category_color_green th a.current{border-color:#64C05B !important;}
+		.another_category_color_green h4, .another_category_color_green h4 a { color: #3EA731 !important; }
+
+
+		.another_category_color_blue, .another_category_color_blue h4 { border-color: #C8DAF2 !important; }
+		.another_category_color_blue * { color: #477FD6 !important; }
+		.another_category_color_blue th a.current{border-color:#477FD6 !important;}
+		.another_category_color_blue h4, .another_category_color_blue h4 a { color: #1960CA !important; }
+
+
+		.another_category_color_violet, .another_category_color_violet h4 { border-color: #E1CEEC !important;  }
+		.another_category_color_violet * { color:#9D64C5 !important; }
+		.another_category_color_violet th a.current{border-color:#9D64C5 !important;}
+		.another_category_color_violet h4, .another_category_color_violet h4 a { color: #7E2CB5 !important; }
+	</style>
+<script type="text/javascript">
+        window.TistoryBlog = {
+            url: "https://cccding.tistory.com",
+            tistoryUrl: "https://cccding.tistory.com",
+			manageUrl: 'https://cccding.tistory.com/manage',
+            token: '0Dt7b6ladxVOA8XvDq11jw%3D%3D'
+        };
+        var servicePath = "";
+        var blogURL = "";
+    </script>
+
+	<script> (function() { window.orgjQuery = window.jQuery; window.jQuery = tjQuery })()</script>
+    <script src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/uoclike.min.js"></script>
+	<script> (function() { window.jQuery = window.orgjQuery; delete window.orgjQuery })()</script>
+    <script>
+		(function($) {
+			$.fn.extend({
+				size: function () {
+					return this.length
+				}
+			});
+			$.fn.UOCLike.defaults.updateServiceCategory = true;
+					})(tjQuery)
+    </script>
+        <script type="text/javascript" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/base.js"></script>
+        <link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/dialog.css">
+            <link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/font(2).css">
+    <link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/postBtn.css">
+    <link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/menubar.css">
+    <script src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/kakao.min.js"></script><style type="text/css">#DragSchLayer{display:block;position:absolute;z-index:1000;width:61px;height:31px;margin:-30px 0px 0px -5px;background:url(//search1.daumcdn.net/search/statics/common/pi/btn_drag_rect.png);cursor:pointer}             @media             only screen and (-webkit-min-device-pixel-ratio: 1.5),             only screen and (min-device-pixel-ratio: 1.5),             only screen and (min-resolution: 1.5dppx) {             #DragSchLayer{background-image:url(//search1.daumcdn.net/search/statics/common/pi/r2/btn_drag_rect.png);background-size:61px 31px}}            </style><script type="text/javascript" async="" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/td.min.js"></script><link rel="stylesheet" type="text/css" href="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/uoclike.min-20150408-2.css"></head>
+
+<body id="tt-body-page">
+<script type="text/javascript">
+	(function() {
+		if (!window.T) {
+			window.T = {}
+		}
+		window.T.config = {"TOP_SSL_URL":"https:\/\/www.tistory.com","PREVIEW":false,"ROLE":"guest","PREV_PAGE":"\/94","NEXT_PAGE":"\/92","BLOG":{"isDormancy":false,"title":"\ucf54\uce74 \ucf54\ub529"},"NEED_COMMENT_LOGIN":false,"COMMENT_LOGIN_CONFIRM_MESSAGE":"","LOGIN_URL":"https:\/\/www.tistory.com\/auth\/login\/?redirectUrl=https%3A%2F%2Fcccding.tistory.com%2F93","DEFAULT_URL":"https:\/\/cccding.tistory.com","USER":{"name":null,"homepage":null}};
+		window.appInfo = {"domain":"tistory.com","topUrl":"https:\/\/www.tistory.com","loginUrl":"https:\/\/www.tistory.com\/auth\/login","logoutUrl":"https:\/\/www.tistory.com\/auth\/logout"};
+
+        window.initData = {};
+        
+	})();
+</script>
+
+<script type="text/javascript" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/common.js"></script>
+<div style="margin:0; padding:0; border:none; background:none; float:none; clear:none; z-index:0"></div>
+
+<div id="dkIndex">
+    <!--웹접근성용 바로가기 링크 모음-->
+    <a href="https://cccding.tistory.com/93#dkBody">본문 바로가기</a>
+</div>
+<div id="dkWrap" class="wrap_skin">
+    <!-- 카테고리버튼 클릭시 'navi_on' 클래스 부여 -->
+    <div id="dkHead" role="banner" class="area_head">
+        <h1 class="screen_out">코카 코딩</h1>
+        <button type="button" class="btn_cate">
+            <span class="ico_skin ico_cate">카테고리</span>
+        </button>
+        <div class="area_search ">
+            <button type="button" class="btn_search">
+                <span class="ico_skin ico_search">검색하기</span>
+            </button>
+			
+	            <form action="https://cccding.tistory.com/93#" method="get" class="frm_search box_search" onsubmit="try{window.location.href=&#39;/search/&#39;+looseURIEncode(document.getElementsByName(&#39;search&#39;)[0].value);document.getElementsByName(&#39;search&#39;)[0].value=&#39;&#39;;return false;}catch(e){}">
+	                <fieldset>
+	                    <legend class="screen_out">검색하기</legend>
+	                    <label for="search" class="lab_search screen_out">Search</label>
+	                    <input type="text" name="search" id="search" class="tf_search" placeholder="Search" value="" data-value="">
+	                    <span class="ico_skin ico_search"></span>
+	                </fieldset>
+	            </form>
+			
+        </div>
+        <div class="area_profile">
+            <div class="tit_post">
+                <a href="https://cccding.tistory.com/" class="link_post">코카 코딩</a>
+            </div>
+            <span class="thumb_profile">
+                <img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/25560A40581473FF34" class="img_profile" alt="프로필사진">
+            </span>
+            <span class="txt_profile">Ccomment</span>
+        </div>
+    </div>
+    <hr class="hide">
+    <div id="dkContent" class="cont_skin" role="main">
+        <div id="cMain">
+            <div id="mFeature" class="wrap_sub">
+                <div class="cont_sub">
+                    <div class="inner_sub">
+                        <div class="area_sub">
+                            <div role="navigation" class="area_navi">
+                                <ul class="tt_category">
+	<li class="">
+		<a class="link_tit" href="https://cccding.tistory.com/category">
+			전체							<span class="c_cnt">(111)</span>
+			
+					</a>
+
+				<ul class="category_list">
+							<li class="">
+					<a class="link_item" href="https://cccding.tistory.com/category/Programming%20Language">
+						Programming Language													<span class="c_cnt">(55)</span>
+						
+											</a>
+
+										<ul class="sub_category_list">
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Programming%20Language/Embedded%20C">
+									Embedded C
+																			<span class="c_cnt">(3)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Programming%20Language/C%2B%2B">
+									C++
+																			<span class="c_cnt">(0)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Programming%20Language/C%23">
+									C#
+																			<span class="c_cnt">(0)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Programming%20Language/JAVA">
+									JAVA
+																			<span class="c_cnt">(0)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Programming%20Language/Assembly">
+									Assembly
+																			<span class="c_cnt">(52)</span>
+									
+																	</a>
+							</li>
+											</ul>
+					
+				</li>
+							<li class="">
+					<a class="link_item" href="https://cccding.tistory.com/category/Programming%20Skill">
+						Programming Skill													<span class="c_cnt">(7)</span>
+						
+											</a>
+
+										<ul class="sub_category_list">
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Programming%20Skill/Data%20Structure%20%26%20Algorithm">
+									Data Structure &amp; Algorithm
+																			<span class="c_cnt">(5)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Programming%20Skill/System%20Programming">
+									System Programming
+																			<span class="c_cnt">(1)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Programming%20Skill/OpenCV">
+									OpenCV
+																			<span class="c_cnt">(1)</span>
+									
+																	</a>
+							</li>
+											</ul>
+					
+				</li>
+							<li class="">
+					<a class="link_item" href="https://cccding.tistory.com/category/Embedded">
+						Embedded													<span class="c_cnt">(45)</span>
+						
+											</a>
+
+										<ul class="sub_category_list">
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Embedded/Kernel%20Porting">
+									Kernel Porting
+																			<span class="c_cnt">(28)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Embedded/Device%20Driver">
+									Device Driver
+																			<span class="c_cnt">(5)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Embedded/Raspberry%20Pi3">
+									Raspberry Pi3
+																			<span class="c_cnt">(9)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Embedded/Atmega128">
+									Atmega128
+																			<span class="c_cnt">(1)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://cccding.tistory.com/category/Embedded/Project">
+									Project
+																			<span class="c_cnt">(2)</span>
+									
+																	</a>
+							</li>
+											</ul>
+					
+				</li>
+							<li class="">
+					<a class="link_item" href="https://cccding.tistory.com/category/Env%20Setting">
+						Env Setting													<span class="c_cnt">(4)</span>
+						
+											</a>
+
+					
+				</li>
+					</ul>
+			</li>
+</ul>
+								<a href="https://cccding.tistory.com/guestbook" class="link_guestbook">Guestbook</a>
+                            </div>
+                            <div class="wrap_etc">
+                                <div class="col_aside left_side">
+                                
+                                        <!-- 공지사항 -->
+										
+		                                    <div class="box_aside">
+		                                        <strong class="tit_aside">Notice</strong>
+		                                        <ul class="list_board">
+		                                            
+		                                        </ul>
+		                                    </div>
+										
+                                    
+                                        <!-- 최근에 올라온 글 -->
+                                    <div class="box_aside">
+                                        <strong class="tit_aside">Recent Posts</strong>
+                                        <ul class="list_board">
+                                            
+                                            <li><a href="https://cccding.tistory.com/112" class="link_board">[System Programming] TCP/..</a></li>
+                                            
+
+                                            <li><a href="https://cccding.tistory.com/111" class="link_board">[Project] 자동 온/습도 제..</a></li>
+                                            
+
+                                            <li><a href="https://cccding.tistory.com/110" class="link_board">[Project] opencv을 이용한..</a></li>
+                                            
+
+                                            <li><a href="https://cccding.tistory.com/109" class="link_board">[Atmega128] 우분투에서 Av..</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                    
+                                        <!-- 최근에 달린 댓글 -->
+                                    <div class="box_aside">
+                                        <strong class="tit_aside">Recent Comments</strong>
+                                        <ul class="list_board">
+                                            
+											<li><a href="https://cccding.tistory.com/96#comment14757355" class="link_board">패키지명이 fonts-unfonts-cor..</a></li>
+    										
+
+											<li><a href="https://cccding.tistory.com/110#comment14733376" class="link_board">안녕하세요. 속도표지판 인식..</a></li>
+    										
+
+											<li><a href="https://cccding.tistory.com/112#comment14728144" class="link_board">채팅프로그램 개발 가능하신가요</a></li>
+    										
+
+											<li><a href="https://cccding.tistory.com/110#comment14710284" class="link_board">tcp/ip로 통신했습니다ㅎㅎ</a></li>
+    										
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+
+
+                                <div class="col_aside right_side">
+                                
+                                        <!-- 방문자수 -->
+                                    <div class="box_aside box_visitor">
+                                        <dl class="list_visitor">
+                                            <dt>Today</dt>
+                                            <dd>64</dd>
+                                        </dl>
+                                        <dl class="list_total">
+                                            <dt>Total</dt>
+                                            <dd>115,553</dd>
+                                        </dl>
+                                    </div>
+                                    
+                                        <!-- 달력 -->
+                                    <div class="box_aside box_calendar">
+                                        		<table class="tt-calendar" cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
+			<caption class="cal_month">
+				<a href="https://cccding.tistory.com/archive/201905" title="1개월 앞의 달력을 보여줍니다.">«</a>
+				&nbsp;
+				<a href="https://cccding.tistory.com/archive/201906" title="현재 달의 달력을 보여줍니다.">2019/06</a>
+				&nbsp;
+				<a href="https://cccding.tistory.com/archive/201907" title="1개월 뒤의 달력을 보여줍니다.">»</a>
+			</caption>
+			<thead>
+			<tr>
+				<th class="cal_week2">일</th>
+				<th class="cal_week1">월</th>
+				<th class="cal_week1">화</th>
+				<th class="cal_week1">수</th>
+				<th class="cal_week1">목</th>
+				<th class="cal_week1">금</th>
+				<th class="cal_week1">토</th>
+			</tr>
+			</thead>
+			<tbody>
+					<tr class="cal_week">
+			<td class="cal_day1">&nbsp;</td>
+			<td class="cal_day1">&nbsp;</td>
+			<td class="cal_day1">&nbsp;</td>
+			<td class="cal_day1">&nbsp;</td>
+			<td class="cal_day1">&nbsp;</td>
+			<td class="cal_day1">&nbsp;</td>
+			<td class=" cal_day cal_day3">1</td>
+		</tr>
+		<tr class="cal_week">
+			<td class=" cal_day cal_day_sunday cal_day3">2</td>
+			<td class=" cal_day cal_day3">3</td>
+			<td class=" cal_day cal_day3">4</td>
+			<td class=" cal_day cal_day3">5</td>
+			<td class=" cal_day cal_day3">6</td>
+			<td class=" cal_day cal_day3">7</td>
+			<td class=" cal_day cal_day3">8</td>
+		</tr>
+		<tr class="cal_week">
+			<td class=" cal_day cal_day_sunday cal_day3">9</td>
+			<td class=" cal_day cal_day3">10</td>
+			<td class=" cal_day cal_day3">11</td>
+			<td class=" cal_day cal_day3">12</td>
+			<td class=" cal_day cal_day3">13</td>
+			<td class=" cal_day cal_day3">14</td>
+			<td class=" cal_day cal_day3">15</td>
+		</tr>
+		<tr class="cal_week cal_current_week">
+			<td class=" cal_day cal_day_sunday cal_day3">16</td>
+			<td class=" cal_day cal_day3">17</td>
+			<td class=" cal_day cal_day3">18</td>
+			<td class=" cal_day cal_day3">19</td>
+			<td class=" cal_day cal_day3">20</td>
+			<td class=" cal_day cal_day4">21</td>
+			<td class=" cal_day cal_day3">22</td>
+		</tr>
+		<tr class="cal_week">
+			<td class=" cal_day cal_day_sunday cal_day3">23</td>
+			<td class=" cal_day cal_day3">24</td>
+			<td class=" cal_day cal_day3">25</td>
+			<td class=" cal_day cal_day3">26</td>
+			<td class=" cal_day cal_day3">27</td>
+			<td class=" cal_day cal_day3">28</td>
+			<td class=" cal_day cal_day3">29</td>
+		</tr>
+		<tr class="cal_week">
+			<td class=" cal_day cal_day_sunday cal_day3">30</td>
+			<td class="cal_day2">&nbsp;</td>
+			<td class="cal_day2">&nbsp;</td>
+			<td class="cal_day2">&nbsp;</td>
+			<td class="cal_day2">&nbsp;</td>
+			<td class="cal_day2">&nbsp;</td>
+			<td class="cal_day2">&nbsp;</td>
+		</tr>
+			</tbody>
+		</table>
+		
+                                    </div>
+                                    
+                                        <!-- 태그 클라우드 -->
+                                    <div class="box_aside box_tag">
+                                        <strong class="tit_aside">Tags</strong>
+                                        <ul class="list_tag">
+                                            
+											<li><a href="https://cccding.tistory.com/tag/%EC%9B%90%20%EA%B2%80%EC%B6%9C" class="link_tag cloud5">원 검출</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/atmega128" class="link_tag cloud1">atmega128</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/pwm" class="link_tag cloud1">pwm</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/%ED%91%9C%EC%A7%80%ED%8C%90%20%EA%B2%80%EC%B6%9C" class="link_tag cloud5">표지판 검출</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/LED" class="link_tag cloud1">LED</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/%EC%A0%95%EC%A7%80%EC%84%A0%20%EA%B2%80%EC%B6%9C" class="link_tag cloud5">정지선 검출</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/%EC%B0%A8%EC%84%A0%EA%B2%80%EC%B6%9C" class="link_tag cloud5">차선검출</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/gpio" class="link_tag cloud1">gpio</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/%EC%8B%A0%ED%98%B8%EB%93%B1%20%EA%B2%80%EC%B6%9C" class="link_tag cloud5">신호등 검출</a></li>
+    										
+											<li><a href="https://cccding.tistory.com/tag/OpenCV" class="link_tag cloud1">OpenCV</a></li>
+    										
+                                        </ul>
+                                        <a href="https://cccding.tistory.com/tag" class="link_more">more</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="ico_skin btn_close">닫기</button>
+
+                    <strong class="screen_out">관리 메뉴</strong>
+                    <ul class="list_control">
+                        <li><a href="https://cccding.tistory.com/manage/entry/post" class="ico_skin link_write" title="글쓰기">글쓰기</a></li>
+                        <li><a href="https://cccding.tistory.com/guestbook" class="ico_skin link_memo" title="방명록">방명록</a></li>
+                        <li><a href="https://cccding.tistory.com/rss" class="ico_skin link_rss" title="RSS">RSS</a></li>
+                        <li><a href="https://cccding.tistory.com/manage" class="ico_skin link_manage" title="관리">관리</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="mArticle" class="article_skin">
+
+				
+
+				<div class="index_title">
+					<h2 class="tit_skin"><span class="txt_title">코카 코딩</span></h2>
+				</div>
+
+                
+					
+
+
+                    
+                        <h2 id="dkBody" class="screen_out">[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신 본문</h2>
+                        <div class="area_title">
+                            <strong class="tit_category"><a href="https://cccding.tistory.com/category/Embedded/Raspberry%20Pi3">Embedded/Raspberry Pi3</a></strong>
+                            <h3 class="tit_post">[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신</h3>
+                            <span class="info_post">[coca] Ccomment
+                                <span class="txt_bar"></span>2017.01.04 19:12
+								
+							</span>
+                        </div>
+
+                        <div class="area_view">
+                            <div class="tt_article_useless_p_margin"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; text-align: justify;"><font face="Verdana"><span style="font-size: 18.6667px;"><b><span style="color: rgb(0, 0, 0);">UART란?</span></b></span></font></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; text-align: justify;"><font face="Verdana"><span style="font-size: 14px; color: rgb(0, 0, 0);">-&nbsp;</span></font><span style="font-family: Verdana; font-size: 14px; color: rgb(0, 0, 0);">universal asynchronous receiver&amp;transmitter의 약자로 비동기 시리얼 통신을 의미한다.</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; text-align: justify;"><span style="font-family: Verdana; font-size: 14px; color: rgb(0, 0, 0);">- baud rate (1초에 몇개의 신호가 전송되는가를 나타내는 단위로 비동기식이기 때문에 두 프로세서 간의 속도를 맟춰주어야 한다.)</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; clear: none; float: none;"><img id="tx_entry_99914_" class="txc-image" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/2771E64C586D9E9023" width="414" height="247"></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; clear: none; float: none;"><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">H/W 연결방법</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; clear: none; float: none;"><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">- RX : 데이터 수신</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; clear: none; float: none;"><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">- TX : 데이터 송신</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; clear: none; float: none;"><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">- RX &lt;-&gt; TX 교차연결</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; clear: none; float: none;"><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">- GND 연결</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; clear: none; float: none;"><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">- baud rate 설정</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; clear: none; float: none;"><span style="font-family: Verdana; font-size: 10pt;"><br></span></p><p style="margin-bottom: 10px; box-sizing: border-box; margin-right: 0px; text-align: justify;"><span style="font-family: Verdana; font-size: 10pt;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">자료참조 :</span><span style="font-family: Verdana; font-size: 10pt;">&nbsp;</span></span><a href="https://learn.sparkfun.com/tutorials/serial-communication" target="_blank" class="tx-link"><span style="font-size: 10pt; font-family: Verdana;">https://learn.sparkfun.com/tutorials/serial-communication</span></a></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-weight: 700; font-size: 14pt;"><br></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-weight: 700; font-size: 14pt;">1. 기본 설정</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">UART를 사용하려면 Bluetooth를 끊어줘야 한다. 이유는 Bluetooth와 UART가 같은 포트를 사용하여 둘중에 한가지만 사용이 가능하기 때문이다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">우선 라즈베리파이로 부팅 후 다음의 명령어를 입력하여 config.txt 파일을 실행한다.</span></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">$ sudo nano /boot/config.txt&nbsp;</span></p></td></tr></tbody></table><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);"><br><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">여기서 Bluetooth를 사용하지 않도록 코드 맨 밑에 다음의 문장을 추가한다. (#은 해당 문장을 주석 처리)</span></span></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">#&nbsp;disable bluetooth&nbsp;</span></p></td></tr><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 20px; border-bottom: 1px solid rgb(204, 204, 204); border-left: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">2</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">dtoverlay=pi3-disable-bt</span></p></td></tr></tbody></table><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);"><br><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">설정 후 저장을 한 뒤 다시 터미널창에서 다음의 명령어를 통해 Bluetooth가 Serial을 사용하지 않도록 한다.</span></span></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">$sudo systemctl <span style="color: rgb(255, 0, 0);">disable</span> hciuart</span><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;</span></p></td></tr></tbody></table><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; text-align: justify;"><font face="Verdana"><span style="font-size: 10pt; font-family: Verdana; color: rgb(0, 0, 0);">2</span></font></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; text-align: justify;"><font face="Verdana"><span style="font-size: 10pt; font-family: Verdana; color: rgb(0, 0, 0);">$reboot</span></font></p></td></tr></tbody></table><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; clear: none; float: none;"><br><span class="imageblock" style="display:inline-block;width:500px;width: 500px; height: 375px;;height:auto;max-width:100%"><span data-url="https://t1.daumcdn.net/cfile/tistory/2378F946586E15B91E?download" data-lightbox="lightbox"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/2378F946586E15B91E" style="cursor: pointer;max-width:100%;height:auto" width="500" height="375" filename="KakaoTalk_20170105_184453580.jpg" filemime="image/jpeg"></span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; clear: none; float: none;"><span style="font-size: 10pt; font-family: Verdana; color: rgb(0, 0, 0);">다음과 같이 블루투스가 끊어진걸 확인할 수 있다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; clear: none; float: none;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">만약 블루투스를 다시 연결하려면 다음과 같다.</span></p><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">우선 라즈베리파이로 부팅 후 다음의 명령어를 입력하여 config.txt 파일을 실행한다.</span></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">$ sudo nano /boot/config.txt&nbsp;</span></p></td></tr></tbody></table><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);"><br><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">여기서 Bluetooth를 사용하지 않도록 설정해놓은 밑의 두 문장을 지운다.</span></span></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">#&nbsp;disable bluetooth&nbsp;</span></p></td></tr><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 20px; border-bottom: 1px solid rgb(204, 204, 204); border-left: 1px solid rgb(204, 204, 204);"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">2</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">dtoverlay=pi3-disable-bt</span></p></td></tr></tbody></table><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);"><br><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">설정 후 저장을 한 뒤 다시 터미널창에서 다음의 명령어를 통해 Bluetooth가 Serial을 사용하도록 한다.</span></span></p><p></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="font-family: Dotum, 돋움; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"></table><p></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; font-size: 10pt;"><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">$sudo systemctl <span style="color: rgb(255, 0, 0);">en</span></span><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);"><span style="color: rgb(255, 0, 0);">able</span> hciuart</span></span><span style="font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">&nbsp;</span></p></td></tr></tbody></table><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; text-align: justify;"><font face="Verdana"><span style="font-size: 10pt; font-family: Verdana; color: rgb(0, 0, 0);">2</span></font></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="margin-right: 0px; margin-bottom: 10px; margin-left: 0px; box-sizing: border-box; text-align: justify;"><font face="Verdana"><span style="font-size: 10pt; font-family: Verdana; color: rgb(0, 0, 0);">$reboot</span></font></p></td></tr></tbody></table><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;">확인하면 전과 같이 Bluetooth가 연결된 것을 확인할 수 있다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;"><br></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="box-sizing: border-box; font-size: 14pt;"><span style="box-sizing: border-box; font-weight: 700; font-family: Verdana; color: rgb(0, 0, 0);">2. 장치 연결</span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">1) UART에 사용된 장치로는 PL2303이고 자세히 보면 위에서부터 VCC, GND, TXD, RXD가 표시되어있다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="box-sizing: border-box; max-width: 100%; height: auto; display: inline-block; width: 667px;"><span data-url="https://t1.daumcdn.net/cfile/tistory/27188F34586C9FB02D?download" data-lightbox="lightbox" style="box-sizing: border-box;"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/27188F34586C9FB02D" width="667" height="500" filename="KakaoTalk_20170104_154416577.jpg" filemime="image/jpeg" style="box-sizing: border-box; border: 0px; vertical-align: middle; max-width: 100%; height: auto; cursor: pointer;"></span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">2) 위의 장치를 라즈베리파이3에 연결하는데 VCC는 라즈베리파이에 전원을 따로 넣어주고 있기때문에 연결하지 않아도 무방하다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 14px;">(라즈베리파이 GPIO 헤더를 확인하고 싶으면</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 14px;">&nbsp;</span><font face="Verdana"><span style="font-size: 14px;"><a href="http://cccding.tistory.com/89" target="_blank" class="tx-link">http://cccding.tistory.com/89</a></span></font><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 14px;">를 참고하면 된다.)</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">다음의 표와 같이 연결을 하였다.</span></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 232px;"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="box-sizing: border-box; font-weight: 700;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-family: Verdana;">Raspberry PI 3</span></span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="box-sizing: border-box; font-weight: 700;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-family: Verdana;">USB to Serial Converter</span><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-family: Verdana;">&nbsp;</span></span></p></td></tr><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204); border-left: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">5V</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">5V&nbsp;</span></p></td></tr><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204); border-left: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">GND&nbsp;</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">GND&nbsp;</span></p></td></tr><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204); border-left: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">RXD&nbsp;</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">TXD&nbsp;</span></p></td></tr><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204); border-left: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">TXD&nbsp;</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 232px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">RXD&nbsp;</span></p></td></tr></tbody></table><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="box-sizing: border-box; max-width: 100%; height: auto; display: inline-block; width: 500px;"><span data-url="https://t1.daumcdn.net/cfile/tistory/277CAB35586CA1A823?download" data-lightbox="lightbox" style="box-sizing: border-box;"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/277CAB35586CA1A823" width="500" height="667" filename="KakaoTalk_20170104_154416010.jpg" filemime="image/jpeg" style="box-sizing: border-box; border: 0px; vertical-align: middle; max-width: 100%; height: auto; cursor: pointer;"></span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);"><br></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">3) PC와&nbsp;PL2303 연결</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">간단하게 USB를 PC에 삽입하면 된다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="box-sizing: border-box; max-width: 100%; height: auto; display: inline-block; width: 500px;"><span data-url="https://t1.daumcdn.net/cfile/tistory/21272C35586CA1E60E?download" data-lightbox="lightbox" style="box-sizing: border-box;"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/21272C35586CA1E60E" width="500" height="667" filename="KakaoTalk_20170104_154415349.jpg" filemime="image/jpeg" style="box-sizing: border-box; border: 0px; vertical-align: middle; max-width: 100%; height: auto; cursor: pointer;"></span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="box-sizing: border-box; font-weight: 700;"><span style="box-sizing: border-box; font-size: 14pt; font-family: Verdana; color: rgb(0, 0, 0);">3.</span><span style="box-sizing: border-box; font-size: 14pt;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span><span style="font-family: Verdana; color: rgb(0, 0, 0);">PC 환경 설정</span></span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="box-sizing: border-box; font-size: 12pt;"><span style="box-sizing: border-box; font-weight: 700; font-family: Verdana; color: rgb(0, 0, 0);">1)Windows</span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">1-1) 장치 드라이버 설치</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">PC와 연결하고 장치관리자에서 포트를 확인해보면 느낌표가 떠있는 경우가 있다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 14px;">이 경우</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 14px;">&nbsp;</span><font face="Verdana"><span style="font-size: 14px;"><a href="http://www.ifamilysoftware.com/news37.html" target="_blank" class="tx-link">http://www.ifamilysoftware.com/news37.html</a></span></font><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 14px;">에서 윈도우 버전에 맞는 드라이버를 다운로드 후 설치하면 해결된다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="box-sizing: border-box; max-width: 100%; height: auto; display: inline-block; width: 403px;"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/24167C35586CA3481C" width="403" height="122" filename="이미지_1.jpg" filemime="image/jpeg" style="box-sizing: border-box; border: 0px; vertical-align: middle; max-width: 100%; height: auto;"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">설치 후 재부팅을 하고 다시 장치관리자에서 확인하면 정상적으로 포트가 잡힌것을 확인 할 수 있다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="display:inline-block;width:402px;;height:auto;max-width:100%"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/2512803E586CD2D728" style="max-width:100%;height:auto" width="402" height="172" filename="ABCD.jpg" filemime="image/jpeg"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: center; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">bps 속도를 설정해준다.</span><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="display:inline-block;width:429px;;height:auto;max-width:100%"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/23483D48586CE88116" style="max-width:100%;height:auto" width="429" height="202" filename="qwert.jpg" filemime="image/jpeg"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="display:inline-block;width:479px;;height:auto;max-width:100%"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/236DE34F586CE86720" style="max-width:100%;height:auto" width="479" height="521" filename="abcdefg.jpg" filemime="image/jpeg"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">1-2) putty를 이용한 serial 통신</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="color: rgb(0, 0, 0); font-family: Verdana;">putty(관리자 권한으로 실행)를 실행하고 Serial을 선택한 뒤&nbsp;장치관리자에서 확인된 포트번호와 속도를 입력한다. 속도가 맞지 않으면 글씨가 깨지는 경우가 있다. 그래서 라즈베리파이에서 다음의 명령어로 속도를 확인해야 한다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="color: rgb(255, 0, 0); font-family: Verdana;">주의)putty 한글배포판은 글자 깨짐 현상이 있습니다.</span></p><p></p><p></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">$&nbsp;&nbsp;sudo nano /boot/cmdline.txt</span></p></td></tr></tbody></table><p></p><p></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="box-sizing: border-box; max-width: 100%; height: auto; display: inline-block; width: 500px;"><span data-url="https://t1.daumcdn.net/cfile/tistory/24449F42586CAAB604?download" data-lightbox="lightbox" style="box-sizing: border-box;"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/24449F42586CAAB604" width="500" height="298" filename="2017-01-04-163118_655x390_scrot.png" filemime="image/jpeg" style="box-sizing: border-box; border: 0px; vertical-align: middle; max-width: 100%; height: auto; cursor: pointer;"></span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; text-align: justify;"><font face="Verdana"><span style="font-size: 14px; font-family: Verdana; color: rgb(0, 0, 0);"><a href="https://putty.ko.softonic.com/" target="_blank" class="tx-link">https://putty.ko.softonic.com/</a> <span style="font-family: Verdana; color: rgb(0, 0, 0);">(putty download site , windows에서 다운로드 및 실행</span><span style="font-family: Verdana; color: rgb(0, 0, 0);">)</span></span></font></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">위에서 속도를 확인 했으면 115200의 속도를 입력해주고 Open을 클릭하면 된다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="display:inline-block;width:530px;;height:auto;max-width:100%"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/216A3640586CD3FD2F" style="max-width:100%;height:auto" width="530" height="464" filename="AAAAAA.jpg" filemime="image/jpeg"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: center; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">아래와 같은 화면을 확인 할 수 있다. 아무것도 안뜨는 경우 엔터를 한번 입력해준다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);"><span style="color: rgb(0, 0, 0);">* raspberrypi l</span><span style="color: rgb(0, 0, 0);">ogin : <span style="color: rgb(255, 0, 0);">pi</span> , Password : <span style="color: rgb(255, 0, 0);">설정한 비밀번호</span>(설정을 안했을 경우 default password&nbsp;: <span style="color: rgb(255, 0, 0);">raspberry</span>)</span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="box-sizing: border-box; max-width: 100%; height: auto; display: inline-block; width: 500px;"><span data-url="https://t1.daumcdn.net/cfile/tistory/26020A35586CA56732?download" data-lightbox="lightbox" style="box-sizing: border-box;"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/26020A35586CA56732" width="500" height="316" filename="이미지_1.png" filemime="image/jpeg" style="box-sizing: border-box; border: 0px; vertical-align: middle; max-width: 100%; height: auto; cursor: pointer;"></span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="box-sizing: border-box; font-size: 12pt;"><span style="box-sizing: border-box; font-weight: 700; font-family: Verdana; color: rgb(0, 0, 0);">2) Linux</span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="box-sizing: border-box; font-size: 11pt; font-family: Verdana; color: rgb(0, 0, 0);">2-1) 장치 연결 확인</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">다음 명령어를 통해 현재 PC에&nbsp;PL2303이 연결 되었는지 확인한다.</span></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">$ lsusb&nbsp;</span></p></td></tr></tbody></table><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="display:inline-block;width:494px;;height:auto;max-width:100%"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/261E9D4F586CD7491C" style="max-width:100%;height:auto" width="494" height="285" filename="123456.jpg" filemime="image/jpeg"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: center; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">위의 사진을 보면 PL2303 Serial Port가 연결된 것을 확인 할 수 있다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">2-2) 장치 번호 확인</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">다음의 명령어를 통해 현재 PC에 PL2303이 연결된 장치 번호를 확인한다.</span></p><table class="txc-table" cellspacing="0" cellpadding="0" width="464" border="0" style="box-sizing: border-box; border-spacing: 0px; border-collapse: collapse; color: rgb(51, 51, 51); font-size: 15px; border-width: medium; border-style: none; border-color: initial;"><tbody style="box-sizing: border-box;"><tr style="box-sizing: border-box;"><td style="box-sizing: border-box; padding: 0px; text-align: center; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204); height: 24px; width: 20px;"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">1</span></p></td><td style="box-sizing: border-box; padding: 0px; text-align: center; border-top: 1px solid rgb(204, 204, 204); height: 24px; border-right: 1px solid rgb(204, 204, 204); width: 445px; border-bottom: 1px solid rgb(204, 204, 204);"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">$&nbsp;dmesg | grep tty&nbsp;</span></p></td></tr></tbody></table><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="display:inline-block;width:491px;;height:auto;max-width:100%"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/267AD24B586CD7FF0C" style="max-width:100%;height:auto" width="491" height="236" filename="123a.jpg" filemime="image/jpeg"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: center; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">위의 사진에서 맨 밑줄을 보면 마지막으로 연결된 장치가 무엇인지 어떤 장치인지 확인이 가능하다. 본인 PC에서는 pl2303이 ttyUSB0으로 잡혀있다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">2-3) putty를 이용한 Serial 통신</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; text-align: justify; font-size: 14px;"><font face="Verdana"><span style="color: rgb(0, 0, 0);">- sudo apt-get install putty(리눅스에서)</span></font></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; text-align: justify; font-size: 14px;"><font face="Verdana"><span style="color: rgb(0, 0, 0);">- sudo putty</span></font></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">위의 windows에서와 마찬가지로 putty에서 Serial을 선택하고 2-2)에서 확인한 Serial Port 번호(ttyUSB0)와 속도(115200)을 입력한다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="display:inline-block;width:492px;;height:auto;max-width:100%"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/242FE63A586CDB6C08" style="max-width:100%;height:auto" width="492" height="463" filename="qqq.jpg" filemime="image/jpeg"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: center; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">장치번호와 속도를 입력한 뒤 Open을 해주면 다음과 같은 화면을 볼 수 있다. 이번에도 마찬가지로 화면이 보이지 않으면 엔터를 한번 입력해준다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="color: rgb(0, 0, 0); font-family: Verdana;">* raspberrypi l</span><span style="color: rgb(0, 0, 0); font-family: Verdana;">ogin :&nbsp;<span style="color: rgb(255, 0, 0);">pi</span>&nbsp;, Password :&nbsp;<span style="color: rgb(255, 0, 0);">설정한 비밀번호</span>(설정을 안했을 경우 default password&nbsp;:&nbsp;<span style="color: rgb(255, 0, 0);">raspberry</span>)</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: left; color: rgb(51, 51, 51); font-size: 14px; float: none; clear: none;"><span class="imageblock" style="box-sizing: border-box; max-width: 100%; height: auto; display: inline-block; width: 495px;"><img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/25586334586CB61131" width="495" height="314" filename="2017-01-04-173652_495x314_scrot.png" filemime="image/jpeg" style="box-sizing: border-box; border: 0px; vertical-align: middle; max-width: 100%; height: auto;"></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="font-weight: bold; box-sizing: border-box; font-size: 14pt; font-family: Verdana; color: rgb(0, 0, 0);">4.</span><span style="font-weight: bold; box-sizing: border-box; font-size: 14pt;"><span style="font-family: Verdana; color: rgb(0, 0, 0);">&nbsp;Test</span></span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="box-sizing: border-box; font-size: 14pt;"><span style="font-family: Verdana; color: rgb(0, 0, 0);"><span style="font-family: Verdana; color: rgb(0, 0, 0); font-size: 10pt;"><b></b><span style="font-size: 10pt; font-family: Verdana; color: rgb(0, 0, 0);">uart.c</span></span><br></span></span></p><div class="txc-textbox" style="border-style: solid; border-width: 1px; border-color: rgb(203, 203, 203); background-color: rgb(255, 255, 255); padding: 10px;"><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">#include &lt;stdio.h&gt;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">#include &lt;string.h&gt;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">#include &lt;errno.h&gt;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">#include &lt;wiringPi.h&gt;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">#include &lt;wiringSerial.h&gt;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">void uart_ch(char ch);</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">void uart_str(char *str);</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">int main(void)</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">{</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">char str[100]={0,};</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">&nbsp; &nbsp; &nbsp; &nbsp; char str1[100]={0,};</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">if (wiringPiSetup () == -1)</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">{</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">&nbsp; &nbsp; </span><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">fprintf (stdout, "Unable to start wiringPi: %s\n", strerror (errno)) ;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">&nbsp; &nbsp; </span><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">return 1 ;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">}</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">while(1)</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">{</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">		</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">scanf("%s",str1);</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">		</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">getchar();</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">		</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">sprintf(str,"%s\n\r",str1);</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">		</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">uart_str(str);</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">}</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">return 0 ;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">}&nbsp;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">void uart_ch(char ch)</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">{</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">int fd ;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">if ((fd = serialOpen ("/dev/ttyAMA0", 115200)) &lt; 0)</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">{</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">		</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">fprintf (stderr, "Unable to open serial device: %s\n", strerror (errno));</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">		</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">return;</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">}</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">serialPutchar(fd,ch);</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">close(fd);</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">}</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">void uart_str(char *str)</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">{</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span class="Apple-tab-span" style="white-space: pre; color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">	</span><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">while(*str) uart_ch(*str++);</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; text-align: justify;"><span style="color: rgb(0, 0, 0); font-family: Verdana; font-size: 10pt;">}</span></p></div><p><br></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">wiringPi에서 지원하는 함수는 다음과 같다.</span></p><p style="box-sizing: border-box; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; font-family: Raleway, &quot;Noto Sans KR&quot;; text-align: justify; color: rgb(51, 51, 51); font-size: 14px;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">더욱 자세히 알고싶다면&nbsp;<a href="http://wiringpi.com/reference/serial-library/" target="_blank" class="tx-link">http://wiringpi.com/reference/serial-library/</a></span><span style="box-sizing: border-box; font-size: 13px; color: rgb(33, 33, 33); line-height: 20px;"><span style="box-sizing: border-box; font-size: 10pt; font-family: Verdana; color: rgb(0, 0, 0);">를 참고하면 된다.</span></span></p><ul style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: Raleway, &quot;Noto Sans KR&quot;; font-size: 14px; list-style-type: square;"><li style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">int serialOpen(char *device, int baud) : 시리얼오픈 함수는 시리얼 포트를 열고 초기화를 하며, 속도(baud rate)를 설정하는 함수이다. 앞의 인자값은 "/dev/ttyAMA0"로 오픈할 시리얼 포트를 지정하며, 두번째 인자는 baud의 통신 속도를 지정하면 된다. 리턴값으로는 에러가 있을 경우 -1을 넘겨준다.</span></li><li style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">int serialGetchar(int fd) : 이 함수는 시리얼 포트에서 한 바이트를 받아서 리턴해주는 함수이다. &nbsp;fd는 시리얼 포트를 오픈할때 리턴 된 파일 디스크립터이다.</span></li><li style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">void serialClose(int fd) : open했던 시리얼 포트를 닫는다</span></li><li style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">void serialPutchar(inf fd, unsigned char c) : 이 함수는 한바이트만큼 전송한다.</span></li><li style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">void serialPuts(int fd, char *s) : 입출력 함수중 하나로 쉽게 설명해서 fgets로 저장한 문자열을 fd로&nbsp;전송하게 된다.</span></li><li style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">void serialPrintf(int fd, char *message, ...)</span></li><li style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">void serialFlush(int fd) : 수신된 모든 데이터를 삭제한다.</span></li><li style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">char *fgets(char *string, sizeof(*string), File *stream) : 이 함수는 텍스트 파일에 저장된 문자를 줄 단위로 읽어들어와 반환하는 함수로서 첫번째 인자는 입력 받은 문자열을 저장할 포인터를 뜻하고, 두번째 인자는 입력 받을 문자의 수를 설정하는 것이며, 세번째 인자는 형성한 스트림의 이름을 뜻한다.</span><br style="box-sizing: border-box;"><span style="box-sizing: border-box; font-family: Verdana; font-size: 10pt; color: rgb(0, 0, 0);">이 함수는 읽어온 문자열에 대한 포인터를 반환하며 파일의 끝에 도달하거나 오류가 발생할 경우 NULL을 반환한다.</span></li></ul><p><br></p><p><span style="font-size: 12pt; font-family: Verdana; color: rgb(0, 0, 0);"><b><span style="color: rgb(0, 0, 0);">컴파일 및 실행</span></b></span></p><p><span style="color: rgb(0, 0, 0); font-size: 10pt; font-family: Verdana;">- gcc uart.c -o uart -lwiringPi</span></p><p><span style="color: rgb(0, 0, 0); font-size: 10pt; font-family: Verdana;">- sudo ./uart</span></p><p><br></p><p><span style="font-family: Verdana; font-size: 12pt;"><b><span style="color: rgb(0, 0, 0);">결과(왼쪽 -&gt; 라즈베리파이 , 오른쪽 -&gt; pc)&nbsp;</span></b></span><b style="font-size: 16px; font-family: Verdana;"><span style="color: rgb(0, 0, 0);">- 라즈베리파이에서 키보드 입력시 데이터가 pc로 전달</span></b></p><p><iframe width="640" height="360" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/ve3f2cbGvblJyjysJvGcygv@my.html" frameborder="0" scrolling="no" allowfullscreen=""></iframe></p><p><span style="font-family: Verdana; font-size: 12pt;"><b><span style="color: rgb(0, 0, 0);"><br></span></b></span></p><div class="container_postbtn #post_button_group"><div class="postbtn_like"><div class="wrap_btn"><button type="button" class="btn_post like_btn uoc-icon" data-uoc-svc="tistory" data-uoc-uid="2438370_93" data-uoc-sc="" data-uoc-pcurl="https://cccding.tistory.com/93" data-uoc-fetchurl="http://api.kakao.tistory.com/like/fetch?uid=2438370_93">
+                                                <div class="uoc-icon">
+                                                    <span class="ico_postbtn ico_like">좋아요</span>
+                                                    <span class="txt_like uoc-text screen_out">공감</span>
+                                                    <span class="txt_like uoc-count">5</span>
+                                                </div>
+                                              </button></div><div class="wrap_btn wrap_btn_share"><button type="button" class="btn_post sns_btn btn_share" data-thumbnail-url="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&amp;fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2512803E586CD2D728" data-title="[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신" data-description="UART란? - universal asynchronous receiver&amp;transmitter의 약자로 비동기 시리얼 통신을 의미한다. - baud rate (1초에 몇개의 신호가 전송되는가를 나타내는 단위로 비동기식이기 때문에 두 프로세서 간의 속도.." data-profile-image="https://t1.daumcdn.net/cfile/tistory/25560A40581473FF34" data-profile-name="Ccomment" data-pc-url="https://cccding.tistory.com/93" data-blog-title="코카 코딩">
+                                            <span class="ico_postbtn ico_share">공유하기</span>
+                                          </button></div><div class="wrap_btn wrap_btn_etc" data-entry-id="93" data-entry-visibility="public" data-category-visibility="public"><button type="button" class="btn_post btn_etc2"><span class="ico_postbtn ico_etc">글 요소</span></button></div></div><button type="button" class="btn_menu_toolbar btn_subscription  #subscribe" data-blog-id="2438370" data-url="https://cccding.tistory.com/93" data-device="web_pc">
+                                            <em class="txt_state">구독하기</em>
+                                            <strong class="txt_tool_id">코카 코딩</strong>
+                                            <span class="img_common_tistory ico_check_type1"></span>
+                                          </button><div class="postbtn_ccl" data-ccl-type="1"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/deed.ko" target="_blank" class="link_ccl"><span class="bundle_ccl"><span class="ico_postbtn ico_ccl1">저작자표시</span><span class="ico_postbtn ico_ccl2">비영리</span><span class="ico_postbtn ico_ccl3">변경금지</span></span></a></div></div>    <!--
+	<rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+		<Work rdf:about="">
+			<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.0/kr/" />
+		</Work>
+		<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/">
+			<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+			<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+			<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+			<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+			<prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/>
+		</License>
+	</rdf:RDF>
+	--><div class="another_category another_category_color_gray">
+<h4>'<a href="https://cccding.tistory.com/category/Embedded">Embedded</a>&nbsp;&gt;&nbsp;<a href="https://cccding.tistory.com/category/Embedded/Raspberry%20Pi3">Raspberry Pi3</a>' 카테고리의 다른 글</h4>
+<table>
+<tbody><tr>
+<th>
+<a href="https://cccding.tistory.com/95?category=683277">[Raspberry Pi3] 라즈베리파이3 초기 설정</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2017.01.06</td>
+</tr>
+<tr>
+<th>
+<a href="https://cccding.tistory.com/94?category=683277">[Raspberry Pi3] 라즈베리파이3 OS 라즈비안 설치</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2017.01.06</td>
+</tr>
+<tr>
+<th>
+<a href="https://cccding.tistory.com/93?category=683277" class="current">[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신</a>&nbsp;&nbsp;<span>(1)</span>
+</th>
+<td>
+2017.01.04</td>
+</tr>
+<tr>
+<th>
+<a href="https://cccding.tistory.com/92?category=683277">[Raspberry Pi3] 라즈베리파이3 PWM을 이용한 서보모터 제어</a>&nbsp;&nbsp;<span>(6)</span>
+</th>
+<td>
+2017.01.04</td>
+</tr>
+<tr>
+<th>
+<a href="https://cccding.tistory.com/91?category=683277">[Raspberry Pi3] 라즈베리파이3 PWM을 이용한 LED 제어</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2017.01.04</td>
+</tr>
+<tr>
+<th>
+<a href="https://cccding.tistory.com/90?category=683277">[Raspberry Pi3] 라즈베리파이3 wiringPi 라이브러리설치</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2017.01.03</td>
+</tr>
+</tbody></table></div></div>
+                        </div>
+                        <div class="area_etc">
+                            
+        					<dl class="list_tag">
+        						<dt>Tag</dt>
+        						<dd><a href="https://cccding.tistory.com/tag/Baud%20rate" rel="tag">Baud rate</a>,
+<a href="https://cccding.tistory.com/tag/pl2303" rel="tag">pl2303</a>,
+<a href="https://cccding.tistory.com/tag/PuTTY" rel="tag">PuTTY</a>,
+<a href="https://cccding.tistory.com/tag/RXD" rel="tag">RXD</a>,
+<a href="https://cccding.tistory.com/tag/TXD" rel="tag">TXD</a>,
+<a href="https://cccding.tistory.com/tag/UART" rel="tag">UART</a>,
+<a href="https://cccding.tistory.com/tag/%EC%8B%9C%EB%A6%AC%EC%96%BC%20%ED%86%B5%EC%8B%A0" rel="tag">시리얼 통신</a></dd>
+        					</dl>
+        					
+
+                            <strong class="screen_out">공유하기 링크</strong>
+                            <ul class="list_share">
+                                <li><a href="https://cccding.tistory.com/93#none" class="ico_skin link_fb" data-service="facebook">페이스북</a></li>
+                                <li><a href="https://cccding.tistory.com/93#none" class="ico_skin link_ks" data-service="kakaostory">카카오스토리</a></li>
+                                <li><a href="https://cccding.tistory.com/93#none" class="ico_skin link_tw" data-service="twitter">트위터</a></li>
+                            </ul>
+                        </div>
+
+						
+							<div class="area_related">
+								<strong class="tit_related">'Embedded/Raspberry Pi3' Related Articles</strong>
+								<ul class="list_related">
+									
+										<li class="text_type">
+											<a href="https://cccding.tistory.com/95?category=683277" class="link_related">
+												
+												<span class="txt_related">[Raspberry Pi3] 라즈베리파이3 초기 설정</span>
+												<span class="date_related">2017.01.06</span>
+												<span class="frame_related"></span>
+											</a>
+										</li>
+									
+										<li class="text_type">
+											<a href="https://cccding.tistory.com/94?category=683277" class="link_related">
+												
+												<span class="txt_related">[Raspberry Pi3] 라즈베리파이3 OS 라즈비안 설치</span>
+												<span class="date_related">2017.01.06</span>
+												<span class="frame_related"></span>
+											</a>
+										</li>
+									
+										<li class="thumb_type">
+											<a href="https://cccding.tistory.com/92?category=683277" class="link_related">
+												
+													<span class="thumb_related">
+														<img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/saved_resource" class="img_related" alt="">
+													</span>
+												
+												<span class="txt_related">[Raspberry Pi3] 라즈베리파이3 PWM을 이용한 서보모터 제어</span>
+												<span class="date_related">2017.01.04</span>
+												<span class="frame_related"></span>
+											</a>
+										</li>
+									
+										<li class="thumb_type">
+											<a href="https://cccding.tistory.com/91?category=683277" class="link_related">
+												
+													<span class="thumb_related">
+														<img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/saved_resource(1)" class="img_related" alt="">
+													</span>
+												
+												<span class="txt_related">[Raspberry Pi3] 라즈베리파이3 PWM을 이용한 LED 제어</span>
+												<span class="date_related">2017.01.04</span>
+												<span class="frame_related"></span>
+											</a>
+										</li>
+									
+								</ul>
+								<a href="https://cccding.tistory.com/category/Embedded/Raspberry%20Pi3" class="link_more">more</a>
+							</div>
+						
+
+                        <div class="area_reply">
+                            <strong class="tit_reply"><span id="commentCount93_0">1</span>  Comments</strong>
+                            <div id="entry93Comment" style="display:block">
+                                
+                                <ul class="list_reply">
+                                    
+                                        <li id="comment14696780" class="rp_general">
+                                            <span class="ico_skin thumb_profile">
+												<img src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/saved_resource(2)" width="48" height="48" class="img_profile" alt="프로필사진">
+											</span>
+                                            <span class="reply_content">
+                                                <span class="tit_nickname">raspberry</span>
+                                                <span class="txt_date">2019.01.19 18:00</span>
+                                                <span class="txt_reply">컴퓨터에서 받은 정보를 새로운 python code에 넣을 방법이 없을까요?</span>
+                                            </span>
+                                            <div class="area_more">
+                                                <!-- on_more 클래스 추가시 레이어 오픈 -->
+                                                <a href="https://cccding.tistory.com/93#none" class="more_reply">
+                                                    <span class="ico_skin ico_more">댓글 메뉴 보기</span>
+                                                </a>
+                                                <div class="reply_layer">
+                                                    <div class="inner_reply_layer">
+                                                        <div class="layer_head">
+                                                            <strong class="screen_out">댓글메뉴</strong>
+                                                        </div>
+                                                        <div class="layer_body">
+                                                            <a href="https://cccding.tistory.com/93#comment14696780" class="link_reply">댓글주소</a>
+                                                            <a href="https://cccding.tistory.com/93#none" onclick="deleteComment(14696780);return false" class="link_reply">수정/삭제</a>
+                                                            <a href="https://cccding.tistory.com/93#none" onclick="commentComment(14696780); return false" class="link_reply">댓글쓰기</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        
+                                    
+
+                                </ul>
+                                
+
+                                <form method="post" action="https://cccding.tistory.com/comment/add/93" onsubmit="return false" style="margin: 0">
+                                    <fieldset class="fld_reply">
+                                        <legend class="screen_out">댓글쓰기 폼</legend>
+                                        
+        									
+                                                <div class="writer_info">
+                                                    <span class="info_name">
+                                                        <label for="name" class="lab_info screen_out">이름</label>
+                                                        <span class="wrap_info">
+                                                            <input type="text" name="name" id="name" class="inp_info" placeholder="Name" tabindex="1">
+                                                        </span>
+                                                    </span>
+                                                    <span class="info_pw ">
+                                                        <label for="password" class="lab_info screen_out">비밀번호</label>
+                                                        <span class="wrap_info">
+                                                            <input type="password" name="password" id="password" class="inp_info" placeholder="Password" tabindex="2">
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            
+                                            <div class="writer_check">
+                                                <span class="check_secret ">
+                                                    <input type="checkbox" name="secret" id="secret" class="inp_secret" tabindex="4">
+                                                    <label for="secret" class="lab_secret">
+                                                        <span class="ico_skin ico_check"></span>
+                                                        Secret
+                                                    </label>
+                                                </span>
+                                            </div>
+                                        
+
+                                        <div class="reply_write ">
+                                            <label for="comment" class="lab_write screen_out">내용</label>
+                                            <textarea name="comment" id="comment" class="tf_reply" placeholder="여러분의 소중한 댓글을 입력해주세요" tabindex="3"></textarea>
+                                        </div>
+
+                                        <div class="writer_btn">
+                                            <button type="submit" class="btn_enter" onclick="addComment(this, 93); return false;" tabindex="5">Send</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div><script type="text/javascript">loadedComments[93]=true;findFragmentAndHighlight(93)</script>
+                        </div>
+
+
+                    
+                
+
+				
+
+				
+
+				
+
+				
+
+                
+    				<div class="area_paging">
+    					<span class="inner_paging">
+                            <a href="https://cccding.tistory.com/94" class="btn_prev "><span class="ico_skin ico_prev"></span>Prev</a>
+    						
+    							<a href="https://cccding.tistory.com/112" class="link_page"><span>1</span></a>
+    						
+    							<a class="link_page"><span>···</span></a>
+    						
+    							<a href="https://cccding.tistory.com/97" class="link_page"><span>15</span></a>
+    						
+    							<a href="https://cccding.tistory.com/96" class="link_page"><span>16</span></a>
+    						
+    							<a href="https://cccding.tistory.com/95" class="link_page"><span>17</span></a>
+    						
+    							<a href="https://cccding.tistory.com/94" class="link_page"><span>18</span></a>
+    						
+    							<a class="link_page"><span class="selected">19</span></a>
+    						
+    							<a href="https://cccding.tistory.com/92" class="link_page"><span>20</span></a>
+    						
+    							<a href="https://cccding.tistory.com/91" class="link_page"><span>21</span></a>
+    						
+    							<a href="https://cccding.tistory.com/90" class="link_page"><span>22</span></a>
+    						
+    							<a href="https://cccding.tistory.com/89" class="link_page"><span>23</span></a>
+    						
+    							<a class="link_page"><span>···</span></a>
+    						
+    							<a href="https://cccding.tistory.com/1" class="link_page"><span>111</span></a>
+    						
+                            <a href="https://cccding.tistory.com/92" class="btn_next ">Next<span class="ico_skin ico_next"></span></a>
+    					</span>
+    				</div>
+                
+            </div>
+        </div>
+    </div>
+    <hr class="hide">
+    <div id="dkFoot" role="contentinfo" class="area_foot">
+        <small class="info_copyright">
+            Blog is powered by
+            <a href="http://www.kakaocorp.com/" class="emph_t" target="_blank">kakao</a> / Designed by
+            <a href="http://www.tistory.com/" class="emph_t" target="_blank">Tistory</a>
+        </small>
+    </div>
+</div>
+
+
+
+<script src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/script.js"></script>
+<script type="text/javascript">
+ document.oncontextmenu = new Function ('return false');
+ document.ondragstart = new Function ('return false');
+ document.onselectstart = new Function ('return false');
+  document.body.style.MozUserSelect = 'none';
+</script>
+<script type="text/javascript" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/functions.js"></script>
+<script src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/search_dragselection.min.js"></script>
+<script>
+    (function($) {
+        $("body").bind('copy', function (e) {
+
+            var url = document.location.href,
+                decodedUrl = decodeURI(url),
+                selection = window.getSelection();
+
+
+            if (typeof window.getSelection == "undefined") {//IE8 or earlier...
+                event.preventDefault();
+
+                var pagelink = '\n\n 출처: ' + decodedUrl,
+                    copytext = selection + pagelink;
+
+                if (window.clipboardData) {
+                    window.clipboardData.setData('Text', copytext);
+                }
+                return;
+            }
+            var body_element = document.getElementsByTagName('body')[0];
+
+            //if the selection is short let's not annoy our users
+            if (("" + selection).length < 30) return;
+
+            //create a div outside of the visible area
+            var newdiv = document.createElement('div');
+            newdiv.style.position = 'absolute';
+            newdiv.style.left = '-99999px';
+            body_element.appendChild(newdiv);
+            newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+            //we need a <pre> tag workaround
+            //otherwise the text inside "pre" loses all the line breaks!
+            if (selection.getRangeAt(0).commonAncestorContainer.nodeName == "PRE") {
+                newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+            }
+
+            newdiv.innerHTML += '<br /><br />출처: <a href="' + url + '">' + decodedUrl + '</a> [코카 코딩]';
+
+            selection.selectAllChildren(newdiv);
+            window.setTimeout(function () {
+                body_element.removeChild(newdiv);
+            }, 200);
+
+        });
+    })(tjQuery);
+</script>
+	<script>
+	    lightbox.option({
+			"fadeDuration": 200,
+		    "resizeDuration": 200,
+		    "wrapAround": false,
+			"albumLabel": "%1 / %2",
+			"fitImagesInViewport":true ,
+			"stopEvent": false
+	    })
+	</script><script type="text/javascript">
+var _tiq = 'undefined' !== typeof _tiq ? _tiq : [];
+_tiq.push(['__setConfig', {enableScroll:true, enableClick:true, enableButton:true}]);
+_tiq.push(["__setParam", "svcdomain", "user.tistory.com"]);
+(function(d) {
+	var se = d.createElement('script'); se.type = 'text/javascript'; se.async = true;
+	se.src = location.protocol + '//m2.daumcdn.net/tiara/js/td.min.js';
+	var s = d.getElementsByTagName('head')[0]; s.appendChild(se);
+})(document);
+_tiq.push(['__setParam', 'param_ex', JSON.stringify({"userId":"3387443","blogId":"2438370","role":"guest","entryId":"93"})]);
+_tiq.push(['__trackPageview']);
+_tiq.push(['__content', 't_content', {
+'c_id':'2438370_93', 
+'c_title':'[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신', 
+'type':'article', 
+'author':'', 
+'author_id':'3387443', 
+'cp':'코카 코딩', 
+'cp_id':'2438370', 
+'regdata':'2017-01-04 19:12:50', 
+'plink':'https://cccding.tistory.com/93', 
+'media':'pcweb', 
+}]);
+var addEvent = function (evt, fn) { window.addEventListener ? window.addEventListener(evt, fn, false) : window.attachEvent('on' + evt, fn); };
+var removeEvent = function(evt, fn) { window.removeEventListener ? window.removeEventListener(evt, fn, false) : window.detachEvent('on' + evt, fn);};
+var ua = navigator.userAgent.toLowerCase(); var isIOS = /iP[ao]d|iPhone/i.test(ua);
+var contentExStat = function() {
+		_tiq.push(['__content', 't_content_ex', {
+			'data_type':'usage'
+, 'meta': {
+'c_id':'2438370_93', 
+'c_title':'[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신', 
+'type':'article', 
+'author':'', 
+'author_id':'3387443', 
+'cp':'코카 코딩', 
+'cp_id':'2438370', 
+'regdata':'2017-01-04 19:12:50', 
+'plink':'https://cccding.tistory.com/93', 
+'media':'pcweb', 
+}
+}]);
+		removeEvent(isIOS ? 'pagehide' : 'beforeunload', contentExStat);
+};
+addEvent(isIOS ? 'pagehide' : 'beforeunload', contentExStat);
+</script>
+<script type="text/javascript">window.roosevelt_params_queue = window.roosevelt_params_queue || []; window.roosevelt_params_queue.push({channel_id: "dk", channel_label: 'tistory'});</script>
+<script type="text/javascript" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/roosevelt_dk_bt.js" async=""></script><script type="text/javascript">if(window.console!=undefined){setTimeout(console.log.bind(console,"%cTISTORY","font:8em Arial;color:#EC6521;font-weight:bold"),0);setTimeout(console.log.bind(console,"%c  나를 표현하는 블로그","font:2em sans-serif;color:#333;"),0);}</script><iframe style="position:absolute;width:1px;height:1px;left:-100px;top:-100px" src="./[Raspberry Pi3] 라즈베리파이3 UART 시리얼 통신_files/api.html" id="editEntry"></iframe><div class="layer_tooltip">
+                <div class="inner_layer_tooltip">
+                    <p class="desc_g"></p>
+                </div>
+            </div><div id="tistoryEtcLayer" class="layer_post"></div><div id="tistorySnsLayer" class="layer_post"><div class="bundle_post"><a href="https://cccding.tistory.com/93#none" class="btn_mark" data-service="facebook"><span class="ico_sns ico_fb"></span>페이스북으로 공유</a><a href="https://cccding.tistory.com/93#none" class="btn_mark" data-service="kakaotalk"><span class="ico_sns ico_kt"></span>카카오톡으로 공유</a><a href="https://cccding.tistory.com/93#none" class="btn_mark" data-service="kakaostory"><span class="ico_sns ico_ks"></span>카카오스토리로 공유</a><a href="https://cccding.tistory.com/93#none" class="btn_mark" data-service="twitter"><span class="ico_sns ico_tw"></span>트위터로 공유</a><a href="https://cccding.tistory.com/93#none" class="btn_mark" data-service="url"><span class="ico_sns ico_url"></span>URL 복사</a><span class="ico_postbtn ico_arrbt"></span></div></div>
+
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="><div class="lb-nav"><a class="lb-prev" href="https://cccding.tistory.com/93"></a><a class="lb-next" href="https://cccding.tistory.com/93"></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div></body></html>

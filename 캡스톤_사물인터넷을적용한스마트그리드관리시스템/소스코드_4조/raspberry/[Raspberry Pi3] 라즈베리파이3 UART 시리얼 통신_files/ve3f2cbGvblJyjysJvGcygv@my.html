@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<!-- saved from url=(0095)https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+    <title>카카오 TV 플레이어</title>
+    <link rel="stylesheet" href="./pc_player-7430805c68.min.css">
+    <script type="text/javascript">
+        if (document.domain) {
+            if (document.domain.indexOf('daum.net') >= 0) {
+                document.domain = 'daum.net';
+            } else if (document.domain.indexOf('kakao.com') >= 0) {
+                document.domain = 'kakao.com';
+            }
+        }
+    </script>
+</head>
+<body class="pc">
+<div id="playerFrame">
+    <div id="videoOverlay" class="video_overlay hidden"><div class="indicator" style=""><canvas width="200" height="200"></canvas></div></div>
+    <div id="playerContainer">
+        <div id="player" class="box_player hide-custom-control pc">
+            <div id="videoContainer" class="video_container hide_default_control">
+                <video id="videoElement" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" x-webkit-airplay="allow" webkit-playsinline="" playsinline=""></video>
+            </div>
+
+            <div id="playerBlind" class="box_message hide">
+                <p id="notification" class="message_g hide"></p>
+            </div>
+
+            <div id="spinnerContainer" class="hide"></div>
+
+            <div id="adContainer" class="hidden"></div>
+
+            <div id="customCover" class="custom_cover visible">
+                <div class="player_head">
+                    <strong class="tit_player">
+                        <a href="https://tv.kakao.com/channel/1385/cliplink/80984553" target="_blank" class="link_title" rel="noopener" style="cursor: text; text-decoration: none;">[Raspberry Pi3]라즈베리파이3 UART 시리얼 통신</a>
+                    </strong>
+                    <span class="extensions">
+                    <button type="button" data-target="socialShare" class="img_player btn_share hide">공유하기</button>
+                    </span>
+                </div>
+                <div id="coverImageWrap" class="cover_image_wrap">
+                    <div id="coverImage" class="cover_image" style="background-image: url(&quot;//t1.daumcdn.net/thumb/C640x360.q50.fjpg/?fname=http://t1.daumcdn.net/tvpot/thumb/ve3f2cbGvblJyjysJvGcygv/thumb.png&quot;);"></div>
+                </div>
+                <button class="link_play">
+                    <span class="img_player">재생하기</span>
+                </button>
+                <span class="time_player"><span class="screen_out">재생시간 : </span><em>00:09</em></span>
+                <button type="button" class="btn_quality quality_on">HD</button>
+                <strong class="tit_kakaotv"><a href="https://tv.kakao.com/channel/1385/cliplink/80984553" target="_blank" class="img_player hide" rel="noopener">kakaoTV</a></strong>
+            </div>
+
+            <div class="debug_tooltip"></div>
+            <div id="extension">
+                <div id="playerModal" class="hide">
+                    <div id="socialShare" class="modal_content hide">
+                        <ul class="list_tab">
+                            <li class="on"><a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#sharePanelUrl" class="link_share">공유하기</a></li>
+                            <li class="hide"><a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#sharePanelEmbed" class="link_share">소스퍼가기</a></li>
+                        </ul>
+                        <div id="sharePanelUrl" class="cont_setting">
+                            <div class="share_cont">
+                                <strong class="screen_out">공유하기</strong>
+                                <ul class="list_sns">
+                                    <li>
+                                        <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" class="link_sns kakaostory"><span class="img_sns"><span class="img_player ico_story"></span></span>스토리</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" class="link_sns facebook"><span class="img_sns"><span class="img_player ico_face"></span></span>페이스북</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" class="link_sns twitter"><span class="img_sns"><span class="img_player ico_twi"></span></span>트위터</a>
+                                    </li>
+                                </ul>
+                                <div class="copy_url copy_auto">
+                                    <label for="shareUrl" class="screen_out">url을 복사합니다</label>
+                                    <input type="text" id="shareUrl" class="txt_inputbox force-select" value="https://play-tv.kakao.com/v/80984553" readonly="">
+                                    <button type="button" class="urlcopy btn_sharecopy">복사</button>
+
+                                    <p class="txt_g">해당 URL을 Ctrl+C(복사)하여 원하는 곳에 Ctrl+V(붙여넣기) 하세요.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sharePanelEmbed" class="cont_setting hide">
+                            <div id="defaultSetting" class="source_cont">
+                                <div class="output_function">
+                                    <strong class="tit_source">iframe 퍼가기</strong>
+                                    <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" class="link_option">상세 옵션<span class="img_player"></span></a>
+                                </div>
+                                <div class="output_copy">
+                                    <label for="iframeUrl" class="screen_out">iframe 코드 입니다.</label>
+                                    <textarea id="iframeUrl" rows="4" readonly="" class="txt_url force-select">&lt;iframe title="[Raspberry Pi3]라즈베리파이3 UART 시리얼 통신" width="640" height="360" src="https://play-tv.kakao.com/embed/player/cliplink/80984553?service=daum_tistory" allowfullscreen frameborder="0" scrolling="no" allow="autoplay"&gt;&lt;/iframe&gt;</textarea>
+                                    <div class="box_autoplay">
+                                        <input type="checkbox" id="autoplayCheckbox" class="inp_autoplay">
+                                        <label for="autoPlayer" class="lab_autoplay">자동재생</label>
+                                    </div>
+                                    <p class="txt_g">해당 URL을 Ctrl+C(복사)하여 원하는 곳에 Ctrl+V(붙여넣기) 하세요.<br>자동재생 옵션의 경우 브라우저 환경에 따라 작동하지 않을 수 있습니다.</p>
+                                </div>
+                            </div>
+                            <div id="detailSetting" class="setting_comm set_detail hide">
+                                <dl class="list_detail">
+                                    <dt>화면 크기</dt>
+                                    <dd>
+                                        16:9
+                                        <div class="screen_size">
+                                            <div class="opt_comm">
+                                                <span class="screen_out">선택내용 : </span>
+                                                <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" class="link_selected" data-selected="640x360">640x360</a>
+
+                                                <div class="screen_out">선택옵션</div>
+                                                <ul class="list_opt">
+                                                    <li><a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" data-size="512x288" class="link_select">512x288</a>
+                                                    </li>
+                                                    <li><a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" data-size="640x360" class="link_select">640x360</a>
+                                                    </li>
+                                                    <li><a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" data-size="850x478" class="link_select">850x478</a>
+                                                    </li>
+                                                    <li><a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" data-size="1280x720" class="link_select">1280x720</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl class="list_detail">
+                                    <dt>재생 시점</dt>
+                                    <dd>
+                                        <div class="choice_comm choice_radiobox">
+                                            <input id="inpplay1" class="inp_comm start" type="radio" name="playType" checked="">
+                                            <label for="inpplay1" class="lab_comm"><span class="img_player "></span>처음</label>
+                                        </div>
+                                        <div class="choice_comm choice_radiobox">
+                                            <input id="inpplay2" class="inp_comm current" type="radio" name="playType">
+                                            <label for="inpplay2" class="lab_comm"><span class="img_player "></span>현재</label>
+                                        </div>
+                                        <div class="choice_comm choice_radiobox">
+                                            <input id="inpplay3" class="inp_comm point" type="radio" name="playType">
+                                            <label for="inpplay3" class="lab_comm"><span class="img_player "></span><span class="ir_pm">재생시점 입력</span></label>
+                                        </div>
+                                        <div class="input_time">
+                                            <label for="minute" class="screen_out">분단위 입력</label>
+                                            <input id="minute" class="inp_text" type="text force-select" maxlength="3" placeholder="00">
+                                            <span class="txt_bar"> : </span>
+                                            <label for="second" class="screen_out">초단위 입력</label>
+                                            <input id="second" class="inp_text" type="text force-select" maxlength="2" placeholder="00">
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <button type="button" class="btn_function btn_cancel">취소</button>
+                                <button type="button" class="btn_function btn_finish">완료</button>
+                            </div>
+                        </div>
+                        <button type="button" class="img_player btn_close">레이어 닫기</button>
+                    </div>
+
+                    <div id="clipInfoModify" class="modal_content hide">
+                        <ul class="list_tab">
+                            <li class="on"><a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#clipInfoPanel" class="link_share">동영상 정보</a></li>
+                            <li><a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#clipCoverImagePanel" class="link_share">대표 이미지</a></li>
+                        </ul>
+                        <div class="cont_setting">
+                            <div id="clipInfoPanel" class="setting_comm set_vodinfo">
+                                <label for="lblName" class="screen_out">제목 수정</label>
+                                <input type="text" id="lblName" class="txt_inputbox" value="" placeholder="동영상 제목을 입력해 주세요." maxlength="60">
+                                <dl id="publicMode" class="list_detail">
+                                    <dt>KakaoTV 공개</dt>
+                                    <dd>
+                                        <div class="choice_comm choice_radiobox">
+                                            <input id="inpOpen" class="inp_comm" type="radio" name="isOpen">
+                                            <label for="inpOpen" class="lab_comm "><span class="img_player "></span>공개</label>
+                                        </div>
+                                        <div class="choice_comm choice_radiobox">
+                                            <input id="inpClosed" class="inp_comm" type="radio" name="isOpen" checked="">
+                                            <label for="inpClosed" class="lab_comm "><span class="img_player "></span>비공개</label>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl class="list_detail">
+                                    <dt>소스 퍼가기</dt>
+                                    <dd>
+                                        <div class="choice_comm choice_radiobox">
+                                            <input id="inpPermit" class="inp_comm" type="radio" name="scrapAllow">
+                                            <label for="inpPermit" class="lab_comm "><span class="img_player"></span>허용</label>
+                                        </div>
+                                        <div class="choice_comm choice_radiobox">
+                                            <input id="inpPermitNot" class="inp_comm" type="radio" name="scrapAllow" checked="">
+                                            <label for="inpPermitNot" class="lab_comm "><span class="img_player"></span>비허용</label>
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <button type="button" class="btn_yellowbox btn_edit">수정</button>
+                            </div>
+                            <div id="clipCoverImagePanel" class="setting_comm set_coverinfo hide">
+                                <ul class="list_cover">
+                                    <li>
+                                        대표 이미지 목록이 존재하지 않습니다.
+                                    </li>
+                                </ul>
+                                <input type="hidden" id="thumnailIndex" value="">
+                                <button type="button" class="btn_yellowbox btn_edit">수정</button>
+                            </div>
+                        </div>
+                        <button type="button" data-target="playerModal" class="img_player btn_close">레이어 닫기</button>
+                    </div>
+                </div>
+            </div>
+            <div id="controllerContainer">
+                <div id="controller" class="hide">
+                    <div class="player_head">
+                        <strong class="tit_player">
+                            <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" target="_blank" class="link_title" rel="noopener"></a>
+                        </strong>
+                        <span class="live_re hide"><span class="ico_dott"></span>LIVE Replay</span>
+                        <span class="extensions">
+                        <button type="button" class="img_player btn_include btn_plus hide">영상 담기</button>
+                        <button type="button" id="relatedClipBtn" class="img_player btn_other hide">관련영상</button>
+                        <button type="button" id="socialShareBtn" data-target="socialShare" class="img_player btn_share hide">공유하기
+                        </button>
+                        </span>
+                    </div>
+                    <div class="player_body">
+                        <button class="link_play hide">
+                            <span class="img_player">재생하기</span>
+                        </button>
+                        <span class="img_player ico_keyboard hide"></span>
+                    </div>
+                    <div class="player_foot">
+                        <div class="player_function">
+                            <div class="playback_button">
+                                <button type="button" class="img_player btn_replay player_replay hidden">다시 보기</button>
+                                <button type="button" class="img_player btn_play player_play hidden">재생하기</button>
+                                <button type="button" class="img_player btn_pause player_pause hidden">일시정지</button>
+                            </div>
+                            <div class="sound_control" aria-valuetext="50.00%">
+                                <div class="box_func">
+                                    <button type="button" id="volumeBtn" class="img_player btn_sound" aria-label="음소거">음량 조절</button>
+                                    <span class="box_tooltip">음소거</span>
+                                </div>
+                                <div class="vol_panel">
+                                    <div id="volume" class="vol_slider">
+                                        <div id="volumeBarBg" class="volume_bar_bg"></div>
+                                        <div id="volumeBar" class="volume_bar" style="width: 50%;">
+                                            <button type="button" id="pointVolume" class="btn_handle">음량조절 핸들</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span class="play_time">
+                                <span class="screen_out">현재 재생 시간 : </span><em id="currentTime" class="current_time"></em> /
+                                <span class="screen_out">전체시간 : </span><em id="duration"></em>
+                            </span>
+                            <div class="box_func">
+                                <a href="https://play-tv.kakao.com/top" target="_blank" class="img_player link_slogo hide" aria-label="카카오TV 바로가기" rel="noopener">kakaoTV</a>
+                                <span class="box_tooltip">카카오TV 바로가기</span>
+                            </div>
+                            <div class="box_func">
+                                <button id="fullscreenBtn" type="button" class="img_player btn_full" aria-label="전체화면">전체화면</button>
+                                <span class="box_tooltip">전체화면</span>
+                            </div>
+                            <div class="box_func">
+                                <button id="widescreebBtn" type="button" class="img_player btn_cinema hide" aria-label="시네마모드">시네마모드</button>
+                                <span class="box_tooltip">시네마모드</span>
+                            </div>
+                            <div class="box_func">
+                                <button id="popupBtn" type="button" class="img_player btn_popup" aria-label="팝업모드">팝업모드</button>
+                                <span class="box_tooltip">팝업모드</span>
+                            </div>
+                            <div class="box_setup box_func">
+                                <button type="button" id="settingBtn" data-target="menu" class="img_player btn_setup" aria-label="설정"></button>
+                                <span class="box_tooltip">설정</span>
+                                <div class="box_setting">
+                                    <div class="desc_toggle clip_autoplay hide">
+                                        <label for="autoPlay" class="lab_toggle">자동 재생</label>
+                                        <input type="checkbox" id="autoPlay" class="inp_toggle">
+                                        <span class="img_toggle"></span>
+                                    </div>
+                                    <div class="dp_quality">
+                                        <button type="button" class="btn_quality">
+                                            화질변경
+                                            <span class="txt_quality">
+                                    		</span>
+                                        </button>
+                                    </div>
+                                    <div class="play_speed clip_speed">
+                                        <button type="button" class="btn_playspeed">
+                                            재생속도
+                                            <span class="txt_playspeed">
+                                    			<span id="current_speed">보통</span>
+                                    			<span class="screen_out">배</span>
+                                    			<span class="img_player ico_playspeed">
+                                    				<span class="screen_out">버튼</span>
+                                    			</span>
+                                    		</span>
+                                        </button>
+                                    </div>
+                                    <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" class="link_set clip_modify hide">동영상 수정</a>
+                                    <a href="https://play-tv.kakao.com/report" target="_blank" class="link_set report" rel="noopener">신고</a>
+                                </div>
+                                <div class="box_quality">
+                                    <strong class="tit_quality">
+                                        <span class="img_player ico_playspeed"></span>화질변경
+                                    </strong>
+                                    <ul class="list_quality">
+                                    </ul>
+                                </div>
+                                <div class="box_playspeed">
+                                    <strong class="tit_playspeed">
+                                        <span class="img_player ico_playspeed"></span>재생속도</strong>
+                                    <ul class="list_playspeed">
+                                        <li>
+                                            <button type="button" class="btn_speed" data-speed="0.25">
+                                                0.25<span class="screen_out">배</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_speed" data-speed="0.5">
+                                                0.5<span class="screen_out">배</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_speed" data-speed="0.75">
+                                                0.75<span class="screen_out">배</span>
+                                            </button>
+                                        </li>
+                                        <li class="txt_g on">
+                                            <button type="button" class="btn_speed" data-speed="1">
+                                                보통<span class="screen_out">배</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_speed" data-speed="1.25">
+                                                <span class="screen_out">선택됨</span>
+                                                1.25<span class="screen_out">배</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_speed" data-speed="1.5">
+                                                1.5<span class="screen_out">배</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_speed" data-speed="1.75">
+                                                1.75<span class="screen_out">배</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_speed" data-speed="2">
+                                                2<span class="screen_out">배</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="progress" class="progress_bar">
+                            <div class="total_bar">
+                                <div class="thumb_bar"></div>
+                                <div id="loadProgress" class="loading_bar"></div>
+                                <div id="playProgress" class="play_bar">
+                                    <div id="pointProgress" class="link_point">현재지점</div>
+                                </div>
+                                <div id="nonLinearPoint" class="nonlinear_point">미드배너광고지점</div>
+                            </div>
+                            <div class="thumb_section hide"></div>
+                            <div class="check_time">
+                                <span class="time_play">00:00:00</span>
+                            </div>
+                        </div>
+
+                        <div id="stillImage" class="section_thumb hide">
+                            <strong class="screen_out">구간이동</strong>
+                            <ul class="list_section">
+                                <li>스틸이미지 목록</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="adController" class="hide">
+                    <div id="linear" class="hide">
+                        <div class="progress_ad">
+                            <div id="adProgress" class="play_bar"></div>
+                        </div>
+                        <div class="adbox">
+                            <div class="ad_area">
+                                <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" target="_blank" id="adLinkBtn" class="link_more hide" rel="noopener">
+                                    광고 더보기<span class="img_player"></span>
+                                </a>
+                                <span id="adCount" class="ad_count hide">
+                                    <span id="adTime" class="num_ad"></span><span id="adText"></span>
+                                </span>
+                                <button id="adSkipBtn" class="link_skip hide">
+                                    <span class="img_player">SKIP</span>
+                                </button>
+                            </div>
+                            <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" target="_blank" id="linearBanner" class="link_smrad hide" rel="noopener">
+                                <strong class="tit_smrad">
+                                    <span class="banner_text"></span>
+                                    <span class="img_player ico_arrY"></span>
+                                </strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="nonLinear" class="hide">
+                        <div class="text_ad">
+                            <div class="text_adbox hide">
+                                <div class="inner_textad">
+                                    <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" target="_blank" class="link_textad" rel="noopener">
+                                        <strong></strong>
+                                        <span class="img_player">바로가기</span>
+                                    </a>
+                                    <button type="button" class="close_textad">
+                                        <span class="img_player">텍스트 배너 닫기</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="link_adinfo">
+                                <span class="img_player ico_info">텍스트 배너 보기</span>
+                            </button>
+                        </div>
+                        <div class="image_ad">
+                            <div class="section_banner hide">
+                                <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" target="_blank" class="link_imagead" rel="noopener">
+                                    <img src="./alpha600.png" class="thumb_img" alt="">
+                                </a>
+                                <button type="button" class="close_imagead img_player">이미지 배너 닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="completionContainer" class="hide">
+                <div id="completion" class="modal_content">
+                    <div id="scrollWrap" class="item_other">
+                        <div class="box_item">
+                            <ul class="list_item">
+                                <li class="hide">목록이 존재하지 않습니다.</li>
+                            </ul>
+                        </div>
+                        <button type="button" class="img_player btn_prev hide">이전</button>
+                        <button type="button" class="img_player btn_next hide">다음</button>
+                    </div>
+                    <button type="button" class="img_player btn_close">레이어 닫기</button>
+                    <span class="extensions">
+                    <button type="button" data-target="socialShare" class="img_player btn_share hide">공유하기</button>
+                    </span>
+                    <button class="link_replay hidden">
+                         <span class="img_player"></span><em>다시보기</em>
+                    </button>
+                </div>
+            </div>
+
+            <div id="waitingContainer" class="hide">
+                <div id="waiting" class="layer_comm hidden">
+                    <div class="box_item">
+                        <div class="message_cont">
+                            <strong class="tit_next">다음 동영상</strong>
+
+                            <div class="link_waiting">
+                                <span id="loaderCircle" class="box_circle"></span>
+                                <span class="ico_waiting">
+                                    <span class="img_player">다음영상 대기중</span>
+                                </span>
+                            </div>
+                            <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" class="link_next">
+                                <span id="nextVideoTitle"></span><br>
+                                <span id="nextVideoChannelName" class="txt_g"></span>
+                            </a>
+                            <br>
+                            <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#none" class="link_cancel">자동재생 취소</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<div id="errorView" class="hidden">
+    <div class="alert_popup">
+        <div id="coverImage2" class="cover_image hide"></div>
+        <div id="thumbnailImageContainer" class="gradient_image hide">
+            <div id="thumbnailImage" class="pattern_image"></div>
+        </div>
+        <div class="alert_message errorInfo">
+            <div id="confirmInfo" class="message_cont message_popup hide">
+                <p class="warning_words">컨펌레이어 내용</p>
+                <div class="function_btn">
+                    <div class="normal hide">
+                        <button class="link_box cancel">취소</button>
+                        <button class="link_box link_blue accept">확인</button>
+                    </div>
+                    <div class="login hide">
+                        <button class="link_box">로그인</button>
+                    </div>
+                    <div class="refresh hide">
+                        <button class="link_alert link_refresh"><span class="img_player"></span>새로 고침</button>
+                    </div>
+                    <div class="web2app hide">
+                        <button class="link_box app">앱으로 연결</button>
+                    </div>
+                </div>
+            </div>
+            <div id="noticeInfo" class="message_cont hide">
+                <em class="noti_image">
+                    <span class="ico_alert"></span>
+                </em>
+
+                <div class="alert_msg">
+                    <p class="warning_words type_words">에러관련 내용</p>
+
+                    <div class="auth hide">
+                        <div class="link_alert">
+                            <button class="link_box check">인증하러 가기
+                                <span class="img_player ico_arrow"></span>
+                            </button>
+                            <button class="link_box hide complete">인증완료</button>
+                        </div>
+                    </div>
+                    <div class="qna hide">
+                        <a href="https://www.kakao.com/policy/right" target="_blank" class="link_alert">
+                            문의하기<span class="img_player ico_arrow"></span><!-- 2018-05-14 추가 -->
+                        </a>
+                    </div>
+                    <div class="redirect hide">
+                        <a href="https://play-tv.kakao.com/embed/player/cliplink/ve3f2cbGvblJyjysJvGcygv@my?service=daum_tistory#" class="link_alert link_redirect">
+                            재생하기<span class="img_player ico_arrow"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="processInfo" class="hide">
+                <div class="loading_info">
+                    <strong class="loading_num"><span id="loadingNum"></span><span class="loading_g">%</span></strong>
+                    <p class="txt_info">배포 중입니다. 잠시만 기다려 주세요.
+                        <img src="./loading_icon.gif" width="24px" height="24px" class="ball_loading" alt="로딩중">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+(function (exports) {
+    var ENV = exports.ENV = {};
+    ENV.phase = 'real';
+    ENV.debugMode = (ENV.phase !== 'real') || 'false' === 'true';
+    ENV.isLogin = '';
+    ENV.viewer = '';
+    ENV.viewerUserId = '';
+    ENV.host = 'https://play-tv.kakao.com';
+    ENV.referer = 'https://cccding.tistory.com/93';
+    ENV.domain = document.domain;
+    ENV.service = 'daum_tistory';
+    ENV.section = 'daum_tistory';
+    ENV.playsinline = ('1' === '1' || '1' === 'true');
+    ENV.isAdType = (ENV.service === 'kakao_ad_talk');
+    ENV.isInternal = (ENV.service === 'kakao_tv' && (
+        ENV.referer.indexOf('tv.kakao.com') >= 0 || ENV.referer.indexOf('devel.kakao.com') >= 0 ||
+        ENV.referer.indexOf('kakaotv.daum.net') >= 0 || ENV.referer.indexOf('dev.daum.net') >= 0));
+    ENV.autoplay = ('0' === '1' || '0' === 'true');
+    ENV.fs = ('1' === '1' || '1' === 'true');
+    ENV.start = '0';
+    ENV.profile = 'HIGH';
+    ENV.rel = '1' === '1' || '1' === 'true';
+    ENV.miniProgress = '0' === '1' || '0' === 'true';
+    ENV.showCover = '1' === '1' || '1' === 'true';
+    ENV.coverProfile = '1' === '1' || '1' === 'true';
+    ENV.controls = '1' === '1' || '1' === 'true';
+    ENV.extensions = '1' === '1' || '1' === 'true';
+    ENV.menu = '1' === '1' || '1' === 'true';
+    ENV.showInfo = '1' === '1' || '1' === 'true';
+    ENV.branding = '1' === '1' || '1' === 'true';
+    ENV.popup = '0' === '1' || '0' === 'true';
+    ENV.mute = '0' === '1' || '0' === 'true';
+    ENV.from = '';
+    ENV.clipLinkId = '80984553';
+    ENV.id = ENV.clipLinkId;
+    ENV.coverUrl = '';
+    ENV.vid = '';
+    ENV.usePostMessage = true;
+    ENV.internalParamString = 'service=daum_tistory';
+    ENV.isKakao = true;
+    ENV.playerLegacy = '0' === '1' || '0' === 'true';
+    ENV.ptoken = '';
+    ENV.dash = '1' === '1' || '1' === 'true';
+
+    if (ENV.service === 'daum_ad_brand_search') {
+        ENV.rel = false;
+        ENV.showInfo = false;
+        ENV.extensions = false;
+        ENV.branding = false;
+        ENV.menu = false;
+        ENV.mute = true;
+    }
+
+    if (ENV.isInternal) {
+        ENV.branding = false;
+    }
+
+    if (ENV.phase !== 'real' || ENV.debugMode) {
+        window.isDebug = true;
+    }
+})(window.monet = (typeof window.monet === 'undefined') ? {} : window.monet);
+</script>
+
+
+
+<script type="text/javascript" src="./ima3.js"></script>
+
+    <script type="text/javascript" src="./kakao.min.js"></script>
+
+
+<script type="text/javascript" src="./player-6a0a4487ac.min.js"></script>
+
+
+<script type="text/javascript">
+(function (exports) {
+    var $ = daumtools.$;
+    var constants = exports.constants;
+    var helpers = exports.helpers;
+
+    var player = new Player($('videoElement'), {
+        type: 'VOD',
+        env: exports.ENV,
+        options: {}
+    });
+
+    var profile = constants.PROFILE.BASE;
+    player.load(exports.ENV.clipLinkId, profile);
+
+    helpers.sdk.sendEventCallback(constants.PLAYER_CALLBACK_NAME.onReadyComplete, [null, 'VOD', exports.ENV.clipLinkId, false]);
+})(window.monet = typeof window.monet === 'undefined' ? {} : window.monet);
+</script>
+
+
+</body></html>
